@@ -1,7 +1,7 @@
 CC := cc
 
 #CFLAGS := -Wall -Wextra -Werror
-CFLAGS := -fsanitize=address
+CFLAGS := -fsanitize=address -Werror
 
 RM := rm -f
 
@@ -17,11 +17,8 @@ all: ${NAME}
 
 #################-REMOVE-################################
 
-dev: dev_run clean
+dev: ${NAME} clean
 	clear
-
-dev_run: ${OBJS} ${MANDO}/pipex.h
-	${CC} ${CFLAGS} ${OBJS} -o ${NAME}
 
 #################-REMOVE-################################
 

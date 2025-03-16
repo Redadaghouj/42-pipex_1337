@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/14 22:55:16 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/16 01:21:43 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <strings.h>
 
 # define EXIT_FAILURE 1
 # define EXIT_SUCCESS 0
