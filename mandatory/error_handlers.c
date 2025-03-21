@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   error_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/21 00:36:41 by mdaghouj         ###   ########.fr       */
+/*   Created: 2025/03/20 23:26:08 by mdaghouj          #+#    #+#             */
+/*   Updated: 2025/03/20 23:32:14 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// void	pipex(int a)
-// {
-	
-// }
-
-int	main(int argc, char *argv[], char *envp[])
+void	print_error(char *msg, char *file)
 {
-	t_pipex	pipex;
-	int		outfile_fd;
-	int		infile_fd;
-
-	if (argc != 5)
-		return (EXIT_FAILURE);
-	init_t_pipex(argv + 1, &pipex);
-	infile_fd = check_infile_permission(pipex.infile);
-	outfile_fd = check_outfile_permission(pipex.outfile);
-	if (infile_fd < 0 || outfile_fd < 0)
-		return(EXIT_FAILURE);
-	// run_pipex(1);
-	return (EXIT_SUCCESS);
+	ft_putstr("pipex: ");
+	ft_putstr(msg);
+	ft_putstr(": ");
+	ft_putstr(file);
+	ft_putstr("\n");
 }

@@ -9,7 +9,10 @@ NAME := pipex
 
 MANDO := mandatory
 
-SRC := ${MANDO}/pipex.c
+UTILS := mandatory/utils
+
+SRC := ${MANDO}/pipex.c ${MANDO}/pipex_utils.c ${MANDO}/error_handlers.c \
+		${UTILS}/ft_putstr.c ${UTILS}/ft_strlen.c ${UTILS}/ft_split.c
 
 OBJS := ${SRC:.c=.o}
 

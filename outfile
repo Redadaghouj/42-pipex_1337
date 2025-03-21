@@ -1,2 +1,7 @@
-Parent
-Child
+Makefile
+README.md
+dev_tools
+infile
+mandatory
+outfile
+pipex
