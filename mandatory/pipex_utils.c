@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 03:49:07 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:51:12 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ void	init_t_pipex(char **argv, t_pipex *pipex)
 	pipex->outfile = argv[3];
 }
 
-int	check_infile_permission(char *file)
+int	check_file_permission(t_pipex *pipex)
 {
-	int fd;
+	int	flag;
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		print_error(strerror(errno), file);
-	return (fd);
-}
-
-int	check_outfile_permission(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT);
-	if (fd < 0)
-		print_error(strerror(errno), file);
-	return (fd);
+	flag = 0;
+	pipex->infile_fd = open(pipex->infile, O_RDONLY);
+	pipex->outfile_fd = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (pipex->infile_fd < 0)
+	{
+		flag = -1;
+		print_error(strerror(errno), pipex->infile);
+	}
+	if (pipex->outfile_fd < 0)
+	{
+		flag = -1;
+		print_error(strerror(errno), pipex->outfile);
+	}
+	return (flag);
 }
 
 int	dup3(int old_fd, int new_fd)
@@ -47,4 +47,14 @@ int	dup3(int old_fd, int new_fd)
 	if (fd >= 0)
 		close(old_fd);
 	return (fd);
+}
+
+int	ft_fork(t_pipex *pipex, char **cmd_path)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		safe_exit(pipex, cmd_path);
+	return (pid);
 }

@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 03:08:16 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:47:32 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,18 @@ typedef struct s_pipex
 
 /* PIPEX_UTILS */
 void	init_t_pipex(char **argv, t_pipex *pipex);
-int		check_infile_permission(char *file);
-int		check_outfile_permission(char *file);
+int		check_file_permission(t_pipex *pipex);
 int		dup3(int old_fd, int new_fd);
+int		ft_fork(t_pipex *pipex, char **cmd_path);
+void	*free_buffer(char **buffer);
 
 /* ERROR_HANDLERS */
 void	print_error(char *msg, char *file);
-void	safe_exit(t_pipex *pipex);
+void	safe_exit(t_pipex *pipex, char **cmd_path);
+
+/* CHILDREN */
+void	first_child(t_pipex *pipex, int pipefd[], char **cmd_paths);
+void	second_child(t_pipex *pipex, int pipefd[], char **cmd_paths);
 
 /* UTILS */
 void	ft_putstr(char *s);

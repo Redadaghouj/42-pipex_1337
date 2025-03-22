@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 02:05:56 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 02:06:08 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:05:00 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (ft_strdup(s1));
 	else
 	{
-		str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+		str = malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
 		if (!str)
 			return (NULL);
 		while (s1[j])
 			str[i++] = s1[j++];
 		j = 0;
+		str[i++] = '/';
 		while (s2[j])
 			str[i++] = s2[j++];
 		str[i] = '\0';

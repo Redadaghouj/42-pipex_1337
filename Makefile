@@ -1,8 +1,8 @@
 CC := cc
 
-# CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror
 # CFLAGS := -Wall -Wextra -Werror -w
-CFLAGS := -fsanitize=address -Werror
+# CFLAGS := -fsanitize=address -Werror
 
 RM := rm -f
 
@@ -12,7 +12,7 @@ MANDO := mandatory
 
 UTILS := mandatory/utils
 
-SRC := ${MANDO}/pipex.c ${MANDO}/pipex_utils.c ${MANDO}/error_handlers.c \
+SRC := ${MANDO}/pipex.c ${MANDO}/pipex_utils.c ${MANDO}/error_handlers.c ${MANDO}/children.c \
 		${UTILS}/ft_putstr.c ${UTILS}/ft_strlen.c ${UTILS}/ft_split.c ${UTILS}/ft_strstr.c \
 		${UTILS}/ft_strdup.c ${UTILS}/ft_strjoin.c
 
