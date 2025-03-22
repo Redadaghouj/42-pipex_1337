@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handlers.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 23:26:08 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 01:37:45 by mdaghouj         ###   ########.fr       */
+/*   Created: 2025/03/22 02:09:50 by mdaghouj          #+#    #+#             */
+/*   Updated: 2025/03/22 02:10:05 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../pipex.h"
 
-void	print_error(char *msg, char *file)
+char	*ft_strdup(const char *s)
 {
-	ft_putstr("pipex: ");
-	ft_putstr(msg);
-	ft_putstr(": ");
-	ft_putstr(file);
-	ft_putstr("\n");
-}
+	char	*str;
+	int		i;
 
-void	safe_exit(t_pipex *pipex)
-{
-	if (pipex->infile_fd >= 0)
-		close(pipex->infile_fd);
-	if (pipex->outfile_fd >= 0)
-		close(pipex->outfile_fd);
-	perror("Error");
-	exit(EXIT_FAILURE);
+	if (!s)
+		return (NULL);
+	str = (char *) malloc(ft_strlen(s) * sizeof(char) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

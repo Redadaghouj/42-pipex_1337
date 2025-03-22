@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/21 00:35:10 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/22 03:49:07 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,14 @@ int	check_outfile_permission(char *file)
 	fd = open(file, O_WRONLY | O_CREAT);
 	if (fd < 0)
 		print_error(strerror(errno), file);
+	return (fd);
+}
+
+int	dup3(int old_fd, int new_fd)
+{
+	int	fd;
+	fd = dup2(old_fd, new_fd);
+	if (fd >= 0)
+		close(old_fd);
 	return (fd);
 }
