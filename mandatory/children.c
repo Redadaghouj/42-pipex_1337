@@ -6,15 +6,30 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/23 03:54:43 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/23 05:46:27 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+// void	print2(t_pipex *pipex)
+// {
+// 	int i=0;
+// 	ft_putstr(pipex->cmd1);
+// 	ft_putstr("\n");
+// 	while (pipex->args1[i] != NULL)
+// 	{
+// 		ft_putstr(pipex->args1[i]);
+// 		ft_putstr(" ");
+// 		i++;
+// 	}
+// 	ft_putstr("\n");
+// }
+
 void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 {
 	int	i;
+	char	**x;
 
 	i = 0;
 	close(pipefd[0]);
@@ -22,15 +37,14 @@ void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 	dup3(pipex->infile_fd, STDIN_FILENO);
 	if (pipex->cmd1[0] == '/')
 	{
-		pipex->args1 = ft_split(pipex->cmd1 + 1, ' ');
-		execve(pipex->cmd1, pipex->args1, envp);
+		x = ft_split(pipex->cmd1, ' ');
+		execve(x[0], pipex->args1, envp);
 		safe_exit(pipex, 1);
 	}
-	else
-		pipex->args1 = ft_split(pipex->cmd1, ' ');
 	while (pipex->cmd_paths[i] != NULL)
 	{
-		pipex->path = ft_strjoin(pipex->cmd_paths[i], pipex->cmd1);
+		x = ft_split(pipex->cmd1 + 1, ' ');
+		pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
 		execve(pipex->path, pipex->args1, envp);
 		free(pipex->path);
 		i++;
@@ -38,26 +52,39 @@ void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 	safe_exit(pipex, 1);
 }
 
+// void	print(t_pipex *pipex)
+// {
+// 	int i=0;
+// 	ft_putstr(pipex->cmd2);
+// 	ft_putstr("\n");
+// 	while (pipex->args2[i] != NULL)
+// 	{
+// 		ft_putstr(pipex->args2[i]);
+// 		ft_putstr(" ");
+// 		i++;
+// 	}
+// 	ft_putstr("\n");
+// }
+
 void	second_child(t_pipex *pipex, int pipefd[], char *envp[])
 {
 	int	i;
+	char	**x;
 
 	i = 0;
 	close(pipefd[1]);
 	dup3(pipefd[0], STDIN_FILENO);
 	dup3(pipex->outfile_fd, STDOUT_FILENO);
-	if (pipex->cmd2[0] == '/') // cmd = ls -e handle
+	if (pipex->cmd2[0] == '/')
 	{
-		pipex->args2 = ft_split(pipex->cmd2 + 1, ' ');
-		execve(pipex->cmd2, pipex->args2, envp);
+		x = ft_split(pipex->cmd2 + 1, ' ');
+		execve(x[0], pipex->args2, envp);
 		safe_exit(pipex, 1);
 	}
-	else
-		pipex->args2 = ft_split(pipex->cmd2, ' ');
-	i=0;
 	while (pipex->cmd_paths[i] != NULL)
 	{
-		pipex->path = ft_strjoin(pipex->cmd_paths[i], pipex->cmd2);
+		x = ft_split(pipex->cmd2, ' ');
+		pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
 		execve(pipex->path, pipex->args2, envp);
 		free(pipex->path);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/23 03:45:19 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/23 05:33:48 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	get_args(t_pipex *pipex)
 {
 	pipex->cmd1 = ft_strrchr(pipex->cmd1, '/');
 	pipex->cmd2 = ft_strrchr(pipex->cmd2, '/');
+	pipex->args1 = ft_split(pipex->cmd1, ' ');
+	pipex->args2 = ft_split(pipex->cmd2, ' ');
 }
 
 int	main(int argc, char *argv[], char *envp[])
