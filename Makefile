@@ -14,7 +14,7 @@ UTILS := mandatory/utils
 
 SRC := ${MANDO}/pipex.c ${MANDO}/pipex_utils.c ${MANDO}/error_handlers.c ${MANDO}/children.c \
 		${UTILS}/ft_putstr.c ${UTILS}/ft_strlen.c ${UTILS}/ft_split.c ${UTILS}/ft_strstr.c \
-		${UTILS}/ft_strdup.c ${UTILS}/ft_strjoin.c
+		${UTILS}/ft_strdup.c ${UTILS}/ft_strjoin.c ${UTILS}/ft_strrchr.c
 
 OBJS := ${SRC:.c=.o}
 

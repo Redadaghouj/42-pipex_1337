@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 21:51:12 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/23 02:07:33 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	init_t_pipex(char **argv, t_pipex *pipex)
 	pipex->cmd1 = argv[1];
 	pipex->cmd2 = argv[2];
 	pipex->outfile = argv[3];
+	pipex->args1 = NULL;
+	pipex->args2 = NULL;
+	pipex->cmd_paths = NULL;
+	pipex->path = NULL;
 }
 
 int	check_file_permission(t_pipex *pipex)
@@ -43,18 +47,19 @@ int	check_file_permission(t_pipex *pipex)
 int	dup3(int old_fd, int new_fd)
 {
 	int	fd;
+
 	fd = dup2(old_fd, new_fd);
 	if (fd >= 0)
 		close(old_fd);
 	return (fd);
 }
 
-int	ft_fork(t_pipex *pipex, char **cmd_path)
+int	ft_fork(t_pipex *pipex)
 {
 	int	pid;
 
 	pid = fork();
 	if (pid == -1)
-		safe_exit(pipex, cmd_path);
+		safe_exit(pipex, 1);
 	return (pid);
 }
