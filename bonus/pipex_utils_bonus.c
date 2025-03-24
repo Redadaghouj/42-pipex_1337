@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 06:27:02 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 06:51:37 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	init_t_pipex(char **argv, t_pipex *pipex)
+void	init_t_pipex(char **argv, int argc, t_pipex *pipex)
 {
 	pipex->infile = argv[0];
-	pipex->cmd1 = argv[1];
-	pipex->cmd2 = argv[2];
-	pipex->outfile = argv[3];
-	pipex->args1 = NULL;
-	pipex->args2 = NULL;
+	pipex->cmd = NULL;
+	pipex->outfile = argv[(argc - 1)];
+	pipex->args = NULL;
 	pipex->cmd_paths = NULL;
 	pipex->path = NULL;
 	pipex->argv = argv + 1;
-	pipex->slash1 = 0;
-	pipex->slash2 = 0;
+	pipex->slash = 0;
+	pipex->count = argc - 2;
 }
 
 int	check_file_permission(t_pipex *pipex)

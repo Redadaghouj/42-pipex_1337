@@ -3,6 +3,8 @@
         "pipex.h": "c",
         "complex": "c",
         "stdlib.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "pipex_bonus.h": "c",
+        "get_next_line_bonus.h": "c"
     }
 }
