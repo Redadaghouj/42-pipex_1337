@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   children.c                                         :+:      :+:    :+:   */
+/*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 01:41:58 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 05:18:33 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
 			execve(pipex->path, pipex->args1, envp);
 			free(pipex->path);
+			free_buffer(x);
 			i++;
 		}
 	}
@@ -53,6 +54,7 @@ void	second_child(t_pipex *pipex, int pipefd[], char *envp[])
 	{
 		x = ft_split(pipex->argv[1], ' ');
 		execve(x[0], pipex->args2, envp);
+		free_buffer(x);
 		safe_exit(pipex, 1);
 	}
 	else
@@ -63,6 +65,7 @@ void	second_child(t_pipex *pipex, int pipefd[], char *envp[])
 			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
 			execve(pipex->path, pipex->args2, envp);
 			free(pipex->path);
+			free_buffer(x);
 			i++;
 		}
 	}
