@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/23 02:22:30 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 05:08:12 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct s_pipex
 	char	**args1;
 	char	**args2;
 	char	*path;
+	char	**argv;
+	int		slash1;
+	int		slash2;
 }			t_pipex;
 
 /* PIPEX_UTILS */
@@ -49,7 +52,7 @@ void	*free_buffer(char **buffer);
 void	print_error(char *msg, char *file);
 void	safe_exit(t_pipex *pipex, int err);
 
-/* CHILDREN */
+/* PROCESS */
 void	first_child(t_pipex *pipex, int pipefd[], char *envp[]);
 void	second_child(t_pipex *pipex, int pipefd[], char *envp[]);
 
@@ -60,6 +63,6 @@ char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s);
 char	*ft_strstr(char *str, char *to_find);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strrchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c, int *slash);
 
 #endif
