@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 07:00:33 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 22:04:28 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_pipex
 	int		outfile_fd;
 	char	**cmd_paths;
 	char	**args;
-	char	*full_arg;
+	char	**full_path;
 	char	*path;
 	char	**argv;
 	int		slash;

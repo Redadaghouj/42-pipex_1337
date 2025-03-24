@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:26:08 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 07:24:15 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 22:07:12 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	safe_exit(t_pipex *pipex, int err)
 		close(pipex->outfile_fd);
 	free_buffer(pipex->cmd_paths);
 	free_buffer(pipex->args);
+	free_buffer(pipex->full_path);
 	if (err)
 		exit(EXIT_FAILURE);
 }

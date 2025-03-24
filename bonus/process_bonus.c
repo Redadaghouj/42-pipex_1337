@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 07:00:15 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 22:05:13 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	child_process(t_pipex *pipex, char *envp[])
 	i = 0;
 	if (pipex->slash || *envp == NULL)
 	{
-		execve(pipex->full_arg, pipex->args, envp);
+		execve(pipex->full_path[0], pipex->args, envp);
 		safe_exit(pipex, 1);
 	}
 	else

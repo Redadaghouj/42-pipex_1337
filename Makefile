@@ -1,8 +1,8 @@
 CC := cc
 
 # CFLAGS := -Wall -Wextra -Werror
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address
-# CFLAGS := -Wall -Wextra -Werror -w
+# CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror -w
 # CFLAGS := -fsanitize=address -Werror
 
 RM := rm -f

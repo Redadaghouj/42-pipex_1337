@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 07:21:05 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/24 22:12:19 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,32 @@ void	run_pipex(t_pipex *pipex, char *envp[])
 	int	pipefd[2];
 	int	i;
 
-	i = 0;
-	if (pipe(pipefd) == -1)
-		return ;
-	if (ft_fork(pipex) == 0)
+	i = -1;
+	while (++i < pipex->count)
 	{
-		get_args(pipex, i++);
-		close(pipefd[0]);
-		dup3(pipefd[1], STDOUT_FILENO);
-		dup3(pipex->infile_fd, STDIN_FILENO);
-		ft_putstr("first cmd\n");
-		child_process(pipex, envp);
-	}
-	while (i < pipex->count)
-	{
-		get_args(pipex, i++);
+		if (pipe(pipefd) == -1)
+			return ;
 		if (ft_fork(pipex) == 0)
 		{
-			if (i < pipex->count - 1)
+			get_args(pipex, i);
+			if (i == 0)
 			{
-				ft_putstr("middles cmd\n");
+				close(pipefd[0]);
+				dup3(pipefd[1], STDOUT_FILENO);
+				dup3(pipex->infile_fd, STDIN_FILENO);
+			}
+			else if (i < pipex->count - 1)
+			{
 				dup3(pipefd[0], STDIN_FILENO);
 				dup3(pipefd[1], STDOUT_FILENO);
-				child_process(pipex, envp);	
 			}
 			else if (i == pipex->count - 1)
 			{
-				ft_putstr("last cmd\n");
 				close(pipefd[1]);
 				dup3(pipefd[0], STDIN_FILENO);
 				dup3(pipex->outfile_fd, STDOUT_FILENO);
-				child_process(pipex, envp);	
 			}
+			child_process(pipex, envp);
 		}
 	}
 	close(pipefd[0]);
@@ -74,10 +68,10 @@ void	get_cmd_paths(char *envp[], t_pipex *pipex)
 
 void	get_args(t_pipex *pipex, int i)
 {
-	pipex->cmd = pipex->argv[i + 1];
+	pipex->cmd = pipex->argv[i];
 	pipex->cmd = ft_strrchr(pipex->cmd, '/', &pipex->slash);
 	pipex->args = ft_split(pipex->cmd, ' ');
-	pipex->full_arg = pipex->argv[i + 1];
+	pipex->full_path = ft_split(pipex->argv[i], ' ');
 }
 
 int	main(int argc, char *argv[], char *envp[])
