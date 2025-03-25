@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 04:47:11 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 07:53:51 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i);
 void	print_error(char *msg, char *file);
 void	safe_exit(t_pipex *pipex, int err);
 
-/* PROCESS */
+/* CHILD PROCESS */
 void	execute_child(t_pipex *pipex, char *envp[]);
+void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd);
 
 /* UTILS */
 void	ft_putstr(char *s);
@@ -62,5 +63,9 @@ char	**ft_split(char const *s, char c);
 char	*ft_strstr(char *str, char *to_find);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strrchr(const char *s, int c, int *slash);
+int		ft_strcmp(char *s1, char *s2);
+
+/* HERE_DOC */
+void	run_here_doc(char *limiter);
 
 #endif

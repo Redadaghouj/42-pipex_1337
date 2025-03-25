@@ -6,32 +6,11 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 05:49:19 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 08:08:17 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
-{
-	if (i == 0)
-	{
-		dup3(pipefd[1], STDOUT_FILENO);
-		dup3(pipex->infile_fd, STDIN_FILENO);
-	}
-	else if (i < pipex->count - 1)
-	{
-		dup3(prev_fd, STDIN_FILENO);
-		dup3(pipefd[1], STDOUT_FILENO);
-	}
-	else
-	{
-		close(pipefd[1]);
-		dup3(prev_fd, STDIN_FILENO);
-		dup3(pipex->outfile_fd, STDOUT_FILENO);
-	}
-	close(pipefd[0]);
-}
 
 void	run_pipex(t_pipex *pipex, char *envp[])
 {
@@ -86,7 +65,9 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pipex;
 
-	if (argc < 5)
+	if (argc == 6 && ft_strcmp(argv[1], "here_doc") == 0)
+		run_here_doc(argv[2]);
+	else if (argc < 5)
 		return (EXIT_FAILURE);
 	init_t_pipex(argv + 1, argc - 1, &pipex);
 	if (check_file_permission(&pipex) < 0)
