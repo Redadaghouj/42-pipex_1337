@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 02:08:16 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/22 02:40:38 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 06:02:30 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,18 @@ int	check(char *str, char *to_find, int k)
 
 char	*ft_strstr(char *str, char *to_find)
 {
-	int	i;
-	int	k;
 	int	found;
 
 	if (*to_find == '\0')
 		return (str);
-	i = 0;
-	while (str[i] != '\0')
+	if (str[0] != '\0')
 	{
-		if (str[i] == to_find[0])
+		if (str[0] == to_find[0])
 		{
-			k = i + 1;
-			found = check(str, to_find, k);
+			found = check(str, to_find, 1);
 			if (found)
-				return (&str[i]);
+				return (&str[0]);
 		}
-		i++;
 	}
 	return (NULL);
 }

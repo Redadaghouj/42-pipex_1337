@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:47:51 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 05:49:19 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 		dup3(prev_fd, STDIN_FILENO);
 		dup3(pipex->outfile_fd, STDOUT_FILENO);
 	}
+	close(pipefd[0]);
 }
 
 void	run_pipex(t_pipex *pipex, char *envp[])
@@ -47,7 +48,6 @@ void	run_pipex(t_pipex *pipex, char *envp[])
 		if (ft_fork(pipex) == 0)
 		{
 			setup_child_process(pipex, i, pipefd, prev_fd);
-			close(pipefd[0]);
 			get_args(pipex, i);
 			execute_child(pipex, envp);
 		}

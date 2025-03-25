@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:21:30 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 05:04:41 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	main(int argc, char *argv[], char *envp[])
 	t_pipex	pipex;
 
 	if (argc != 5)
+	{
+		ft_putstr("Usage: ./pipex infile cmd1 cmd2 outfile\n");
 		return (EXIT_FAILURE);
+	}
 	init_t_pipex(argv + 1, &pipex);
 	if (check_file_permission(&pipex) < 0)
 		return (EXIT_FAILURE);
