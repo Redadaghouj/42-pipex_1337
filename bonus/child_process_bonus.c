@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_bonus.c                                    :+:      :+:    :+:   */
+/*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 22:05:13 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:06:26 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	child_process(t_pipex *pipex, char *envp[])
+void	execute_child(t_pipex *pipex, char *envp[])
 {
 	int		i;
 	char	**x;

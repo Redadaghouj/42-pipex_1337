@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 05:54:24 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:28:03 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	setup_first_child(int pipefd[], int infile_fd)
+{
+	close(pipefd[0]);
+	dup3(pipefd[1], STDOUT_FILENO);
+	dup3(infile_fd, STDIN_FILENO);
+}
+
+void	setup_second_child(int pipefd[], int outfile_fd)
+{
+	close(pipefd[1]);
+	dup3(pipefd[0], STDIN_FILENO);
+	dup3(outfile_fd, STDOUT_FILENO);
+}
 
 void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 {
@@ -18,9 +32,7 @@ void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
 	char	**x;
 
 	i = 0;
-	close(pipefd[0]);
-	dup3(pipefd[1], STDOUT_FILENO);
-	dup3(pipex->infile_fd, STDIN_FILENO);
+	setup_first_child(pipefd, pipex->infile_fd);
 	if (pipex->slash1 || *envp == NULL)
 	{
 		execve(pipex->argv[0], pipex->args1, envp);
@@ -47,9 +59,7 @@ void	second_child(t_pipex *pipex, int pipefd[], char *envp[])
 	char	**x;
 
 	i = 0;
-	close(pipefd[1]);
-	dup3(pipefd[0], STDIN_FILENO);
-	dup3(pipex->outfile_fd, STDOUT_FILENO);
+	setup_second_child(pipefd, pipex->outfile_fd);
 	if (pipex->slash2 || *envp == NULL)
 	{
 		x = ft_split(pipex->argv[1], ' ');

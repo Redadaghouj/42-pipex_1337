@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 22:04:28 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:15:32 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ int		check_file_permission(t_pipex *pipex);
 int		dup3(int old_fd, int new_fd);
 int		ft_fork(t_pipex *pipex);
 void	*free_buffer(char **buffer);
+void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i);
 
 /* ERROR_HANDLERS */
 void	print_error(char *msg, char *file);
 void	safe_exit(t_pipex *pipex, int err);
 
 /* PROCESS */
-void	child_process(t_pipex *pipex, char *envp[]);
+void	execute_child(t_pipex *pipex, char *envp[]);
 
 /* UTILS */
 void	ft_putstr(char *s);

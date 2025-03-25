@@ -6,19 +6,20 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:58:45 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 05:57:10 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:41:48 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex_bonus.h"
 
-
 void	*free_buffer(char **buffer)
 {
 	int	i;
 
+	if (buffer == NULL)
+		return (NULL);
 	i = 0;
-	while (buffer && buffer[i] != NULL)
+	while (buffer[i] != NULL)
 	{
 		free(buffer[i]);
 		i++;

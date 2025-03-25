@@ -6,17 +6,37 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 01:43:26 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:47:51 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
+void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
+{
+	if (i == 0)
+	{
+		dup3(pipefd[1], STDOUT_FILENO);
+		dup3(pipex->infile_fd, STDIN_FILENO);
+	}
+	else if (i < pipex->count - 1)
+	{
+		dup3(prev_fd, STDIN_FILENO);
+		dup3(pipefd[1], STDOUT_FILENO);
+	}
+	else
+	{
+		close(pipefd[1]);
+		dup3(prev_fd, STDIN_FILENO);
+		dup3(pipex->outfile_fd, STDOUT_FILENO);
+	}
+}
+
 void	run_pipex(t_pipex *pipex, char *envp[])
 {
 	int	pipefd[2];
 	int	i;
-	int prev_fd;
+	int	prev_fd;
 
 	i = 0;
 	prev_fd = -1;
@@ -26,36 +46,16 @@ void	run_pipex(t_pipex *pipex, char *envp[])
 			return ;
 		if (ft_fork(pipex) == 0)
 		{
-			if (i == 0)
-			{
-				dup3(pipefd[1], STDOUT_FILENO);
-				dup3(pipex->infile_fd, STDIN_FILENO);
-			}
-			else if (i < pipex->count - 1)
-			{
-				dup3(prev_fd, STDIN_FILENO);
-				dup3(pipefd[1], STDOUT_FILENO);
-			}
-			else
-			{
-				close(pipefd[1]);
-				dup3(prev_fd, STDIN_FILENO);
-				dup3(pipex->outfile_fd, STDOUT_FILENO);
-			}
+			setup_child_process(pipex, i, pipefd, prev_fd);
 			close(pipefd[0]);
 			get_args(pipex, i);
-			child_process(pipex, envp);
+			execute_child(pipex, envp);
 		}
-		if (prev_fd != -1)
-			close(prev_fd);
-		if (i < pipex->count - 1)
-		{
-			close(pipefd[1]);
-			prev_fd = pipefd[0];
-		}
+		parent_cleanup(&prev_fd, pipex->count, pipefd, i);
 		i++;
 	}
-	while (wait(NULL) != -1);
+	while (wait(NULL) != -1)
+		;
 }
 
 void	get_cmd_paths(char *envp[], t_pipex *pipex)
@@ -68,7 +68,7 @@ void	get_cmd_paths(char *envp[], t_pipex *pipex)
 		if (ft_strstr(envp[i], "PATH") != NULL)
 		{
 			pipex->cmd_paths = ft_split(&envp[i][5], ':');
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -90,7 +90,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	init_t_pipex(argv + 1, argc - 1, &pipex);
 	if (check_file_permission(&pipex) < 0)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	get_cmd_paths(envp, &pipex);
 	run_pipex(&pipex, envp);
 	safe_exit(&pipex, 0);

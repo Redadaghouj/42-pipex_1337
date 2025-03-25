@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 06:51:37 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:22:39 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	check_file_permission(t_pipex *pipex)
 
 	flag = 0;
 	pipex->infile_fd = open(pipex->infile, O_RDONLY);
-	pipex->outfile_fd = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	pipex->outfile_fd = open(pipex->outfile, O_WRONLY | O_CREAT
+			| O_TRUNC, 0777);
 	if (pipex->infile_fd < 0)
 	{
 		flag = -1;
@@ -63,4 +64,15 @@ int	ft_fork(t_pipex *pipex)
 	if (pid == -1)
 		safe_exit(pipex, 1);
 	return (pid);
+}
+
+void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i)
+{
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (i < count - 1)
+	{
+		close(pipefd[1]);
+		*prev_fd = pipefd[0];
+	}
 }

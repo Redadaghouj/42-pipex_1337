@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 06:22:51 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 03:21:30 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_cmd_paths(char *envp[], t_pipex *pipex)
 		if (ft_strstr(envp[i], "PATH") != NULL)
 		{
 			pipex->cmd_paths = ft_split(&envp[i][5], ':');
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -60,7 +60,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	init_t_pipex(argv + 1, &pipex);
 	if (check_file_permission(&pipex) < 0)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	get_cmd_paths(envp, &pipex);
 	get_args(&pipex);
 	run_pipex(&pipex, envp);
