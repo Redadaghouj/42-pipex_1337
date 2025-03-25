@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:22:39 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:45:08 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	check_file_permission(t_pipex *pipex)
 	if (pipex->infile_fd < 0)
 	{
 		flag = -1;
-		print_error(strerror(errno), pipex->infile);
+		perror("Error");
 	}
 	if (pipex->outfile_fd < 0)
 	{
 		flag = -1;
-		print_error(strerror(errno), pipex->outfile);
+		perror("Error");
 	}
 	return (flag);
 }

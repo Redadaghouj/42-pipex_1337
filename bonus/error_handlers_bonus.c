@@ -6,20 +6,11 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:26:08 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:49:34 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:44:33 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	print_error(char *msg, char *file)
-{
-	ft_putstr("pipex: ");
-	ft_putstr(msg);
-	ft_putstr(": ");
-	ft_putstr(file);
-	ft_putstr("\n");
-}
 
 void	safe_exit(t_pipex *pipex, int err)
 {
