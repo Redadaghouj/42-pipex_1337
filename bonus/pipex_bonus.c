@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/24 22:12:19 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/25 01:43:26 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,45 @@ void	run_pipex(t_pipex *pipex, char *envp[])
 {
 	int	pipefd[2];
 	int	i;
+	int prev_fd;
 
-	i = -1;
-	while (++i < pipex->count)
+	i = 0;
+	prev_fd = -1;
+	while (i < pipex->count)
 	{
-		if (pipe(pipefd) == -1)
+		if (i < pipex->count - 1 && pipe(pipefd) == -1)
 			return ;
 		if (ft_fork(pipex) == 0)
 		{
-			get_args(pipex, i);
 			if (i == 0)
 			{
-				close(pipefd[0]);
 				dup3(pipefd[1], STDOUT_FILENO);
 				dup3(pipex->infile_fd, STDIN_FILENO);
 			}
 			else if (i < pipex->count - 1)
 			{
-				dup3(pipefd[0], STDIN_FILENO);
+				dup3(prev_fd, STDIN_FILENO);
 				dup3(pipefd[1], STDOUT_FILENO);
 			}
-			else if (i == pipex->count - 1)
+			else
 			{
 				close(pipefd[1]);
-				dup3(pipefd[0], STDIN_FILENO);
+				dup3(prev_fd, STDIN_FILENO);
 				dup3(pipex->outfile_fd, STDOUT_FILENO);
 			}
+			close(pipefd[0]);
+			get_args(pipex, i);
 			child_process(pipex, envp);
 		}
+		if (prev_fd != -1)
+			close(prev_fd);
+		if (i < pipex->count - 1)
+		{
+			close(pipefd[1]);
+			prev_fd = pipefd[0];
+		}
+		i++;
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
 	while (wait(NULL) != -1);
 }
 
