@@ -6,78 +6,64 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:28:03 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:39:56 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	setup_first_child(int pipefd[], int infile_fd)
+void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 {
+	if (i == 0)
+	{
+		if (pipex->infile_fd == -1)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+			safe_exit(pipex, 2);
+		}
+		dup3(pipex->infile_fd, STDIN_FILENO);
+		dup3(pipefd[1], STDOUT_FILENO);
+	}
+	else if (i < pipex->count - 1)
+	{
+		dup3(prev_fd, STDIN_FILENO);
+		dup3(pipefd[1], STDOUT_FILENO);
+	}
+	else
+	{
+		close(pipefd[1]);
+		dup3(prev_fd, STDIN_FILENO);
+		check_outfile_permission(pipex, pipefd);
+		dup3(pipex->outfile_fd, STDOUT_FILENO);
+	}
 	close(pipefd[0]);
-	dup3(pipefd[1], STDOUT_FILENO);
-	dup3(infile_fd, STDIN_FILENO);
 }
 
-void	setup_second_child(int pipefd[], int outfile_fd)
-{
-	close(pipefd[1]);
-	dup3(pipefd[0], STDIN_FILENO);
-	dup3(outfile_fd, STDOUT_FILENO);
-}
-
-void	first_child(t_pipex *pipex, int pipefd[], char *envp[])
+void	execute_child(t_pipex *pipex, char *envp[])
 {
 	int		i;
 	char	**x;
 
 	i = 0;
-	setup_first_child(pipefd, pipex->infile_fd);
-	if (pipex->slash1 || *envp == NULL)
+	if (pipex->slash || *envp == NULL)
 	{
-		execve(pipex->argv[0], pipex->args1, envp);
+		if (access(pipex->full_path[0], X_OK) == 0)
+			execve(pipex->full_path[0], pipex->args, envp);
 		safe_exit(pipex, 1);
 	}
 	else
 	{
 		while (pipex->cmd_paths[i] != NULL)
 		{
-			x = ft_split(pipex->cmd1, ' ');
+			x = ft_split(pipex->cmd, ' ');
 			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
-			execve(pipex->path, pipex->args1, envp);
+			if (access(pipex->path, R_OK) == 0)
+				execve(pipex->path, pipex->args, envp);
 			free(pipex->path);
 			free_buffer(x);
 			i++;
 		}
 	}
-	safe_exit(pipex, 1);
-}
-
-void	second_child(t_pipex *pipex, int pipefd[], char *envp[])
-{
-	int		i;
-	char	**x;
-
-	i = 0;
-	setup_second_child(pipefd, pipex->outfile_fd);
-	if (pipex->slash2 || *envp == NULL)
-	{
-		x = ft_split(pipex->argv[1], ' ');
-		execve(x[0], pipex->args2, envp);
-		free_buffer(x);
-		safe_exit(pipex, 1);
-	}
-	else
-	{
-		while (pipex->cmd_paths[i] != NULL)
-		{
-			x = ft_split(pipex->cmd2, ' ');
-			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
-			execve(pipex->path, pipex->args2, envp);
-			free(pipex->path);
-			free_buffer(x);
-			i++;
-		}
-	}
-	safe_exit(pipex, 1);
+	fail_cmd_error(pipex, pipex->cmd);
 }

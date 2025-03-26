@@ -6,46 +6,28 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 04:45:54 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:40:03 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init_t_pipex(char **argv, t_pipex *pipex)
+void	check_infile_permission(t_pipex *pipex)
 {
-	pipex->infile = argv[0];
-	pipex->cmd1 = argv[1];
-	pipex->cmd2 = argv[2];
-	pipex->outfile = argv[3];
-	pipex->args1 = NULL;
-	pipex->args2 = NULL;
-	pipex->cmd_paths = NULL;
-	pipex->path = NULL;
-	pipex->argv = argv + 1;
-	pipex->slash1 = 0;
-	pipex->slash2 = 0;
+	pipex->infile_fd = open(pipex->infile, O_RDONLY);
+	if (pipex->infile_fd < 0)
+		perror("pipex");
 }
 
-int	check_file_permission(t_pipex *pipex)
+void	check_outfile_permission(t_pipex *pipex, int pipefd[])
 {
-	int	flag;
-
-	flag = 0;
-	pipex->infile_fd = open(pipex->infile, O_RDONLY);
-	pipex->outfile_fd = open(pipex->outfile, O_WRONLY
-			| O_CREAT | O_TRUNC, 0777);
-	if (pipex->infile_fd < 0)
-	{
-		flag = -1;
-		perror("Error");
-	}
+	pipex->outfile_fd = open(pipex->outfile, O_WRONLY | O_CREAT
+			| O_TRUNC, 0666);
 	if (pipex->outfile_fd < 0)
 	{
-		flag = -1;
-		perror("Error");
+		close(pipefd[0]);
+		safe_exit(pipex, 1);
 	}
-	return (flag);
 }
 
 int	dup3(int old_fd, int new_fd)
@@ -66,4 +48,15 @@ int	ft_fork(t_pipex *pipex)
 	if (pid == -1)
 		safe_exit(pipex, 1);
 	return (pid);
+}
+
+void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i)
+{
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (i < count - 1)
+	{
+		close(pipefd[1]);
+		*prev_fd = pipefd[0];
+	}
 }

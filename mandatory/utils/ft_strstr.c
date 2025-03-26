@@ -6,23 +6,23 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 02:08:16 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 06:02:30 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:39:20 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	check(char *str, char *to_find, int k)
+int	check(char *str, char *to_find, int i)
 {
 	int	size;
 	int	j;
 
 	j = 1;
 	size = ft_strlen(to_find);
-	while (to_find[j] == str[k] && to_find[j] != '\0')
+	while (to_find[j] == str[i] && to_find[j] != '\0')
 	{
 		j++;
-		k++;
+		i++;
 	}
 	return (j == size);
 }

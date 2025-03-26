@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 04:47:15 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:51:12 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,46 @@
 
 typedef struct s_pipex
 {
-	char	*infile;
-	char	*cmd1;
-	char	*cmd2;
-	char	*outfile;
+	char	*cmd;
 	int		infile_fd;
 	int		outfile_fd;
 	char	**cmd_paths;
-	char	**args1;
-	char	**args2;
+	char	**args;
+	char	**full_path;
 	char	*path;
 	char	**argv;
-	int		slash1;
-	int		slash2;
+	int		slash;
+	int		count;
+	char	*infile;
+	char	*outfile;
 }			t_pipex;
 
+void	get_args(t_pipex *pipex, int i);
+
 /* PIPEX_UTILS */
-void	init_t_pipex(char **argv, t_pipex *pipex);
-int		check_file_permission(t_pipex *pipex);
+void	init_t_pipex(char **argv, int argc, t_pipex *pipex);
+void	check_infile_permission(t_pipex *pipex);
+void	check_outfile_permission(t_pipex *pipex, int pipefd[]);
 int		dup3(int old_fd, int new_fd);
 int		ft_fork(t_pipex *pipex);
 void	*free_buffer(char **buffer);
+void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i);
 
 /* ERROR_HANDLERS */
-void	print_error(char *msg, char *file);
 void	safe_exit(t_pipex *pipex, int err);
+void	fail_cmd_error(t_pipex *pipex, char *cmd);
 
-/* PROCESS */
-void	first_child(t_pipex *pipex, int pipefd[], char *envp[]);
-void	second_child(t_pipex *pipex, int pipefd[], char *envp[]);
+/* CHILD PROCESS */
+void	execute_child(t_pipex *pipex, char *envp[]);
+void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd);
 
 /* UTILS */
 void	ft_putstr(char *s);
-size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
-char	*ft_strdup(const char *s);
 char	*ft_strstr(char *str, char *to_find);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strrchr(const char *s, int c, int *slash);
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s);
 
 #endif
