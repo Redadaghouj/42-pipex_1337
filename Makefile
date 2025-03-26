@@ -1,9 +1,6 @@
 CC := cc
 
 CFLAGS := -Wall -Wextra -Werror
-# CFLAGS := -Wall -Wextra -Werror -fsanitize=address -g
-# CFLAGS := -Wall -Wextra -Werror -w
-# CFLAGS := -fsanitize=address -Werror
 
 RM := rm -f
 
@@ -25,7 +22,7 @@ SRC := ${MANDO}/pipex.c ${MANDO}/pipex_utils.c ${MANDO}/error_handlers.c ${MANDO
 
 SRC_BNS := ${BNS}/pipex_bonus.c ${BNS}/pipex_utils_bonus.c ${BNS}/error_handlers_bonus.c ${BNS}/child_process_bonus.c \
 		${BNS}/here_doc_bonus.c ${UTILS_BNS}/ft_putstr_bonus.c ${UTILS_BNS}/ft_split_bonus.c ${UTILS_BNS}/ft_strstr_bonus.c \
-		${UTILS_BNS}/ft_strjoin_bonus.c ${UTILS_BNS}/ft_strrchr_bonus.c ${UTILS_BNS}/ft_strcmp.c\
+		${UTILS_BNS}/ft_strjoin_bonus.c ${UTILS_BNS}/ft_strrchr_bonus.c ${UTILS_BNS}/ft_strcmp_bonus.c\
 		${GNL_BNS}/get_next_line_bonus.c ${GNL_BNS}/get_next_line_utils_bonus.c
 
 OBJS := ${SRC:.c=.o}
