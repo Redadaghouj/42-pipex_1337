@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/26 01:12:36 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:19:12 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_t_pipex(char **argv, int argc, t_pipex *pipex)
 	pipex->argv = argv + 1;
 	pipex->slash = 0;
 	pipex->count = argc - 2;
-	pipex->heredoc = -1;
+	pipex->heredoc = 0;
 }
 
 int	check_file_permission(t_pipex *pipex, char *infile, char *outfile)
