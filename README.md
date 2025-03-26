@@ -136,4 +136,4 @@ Then type input ending with EOF
 - No memory leaks  
 - Clean Makefile structure
 
-For complete requirements, see [en.subject.pdf](./en.subject.pdf).
+For complete requirements, see [en.subject.pdf](subject/en.subject.pdf).
