@@ -93,11 +93,11 @@ make re         # Full recompile
 
 ### Basic Pipe  
 ```bash
-./pipex infile "ls -l" "wc -l" outfile
+./pipex infile "cat" "cat" outfile
 ```
 Equivalent to:  
 ```bash
-< infile ls -l | wc -l > outfile
+< infile cat | cat > outfile
 ```
 
 ### Multiple Pipes (Bonus)  
