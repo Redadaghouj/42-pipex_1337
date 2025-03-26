@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 07:28:58 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/26 01:02:36 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:17:13 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_heredoc_permission(char *file, int *fd)
 	if (*fd < 0)
 	{
 		perror("Error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -27,6 +27,8 @@ void	run_here_doc(char *limiter, char *file, t_pipex *pipex)
 	int		pipefd[2];
 	char	*line;
 
+	pipex->heredoc = 1;
+	pipex->count = 2;
 	check_heredoc_permission(file, &pipex->outfile_fd);
 	if (pipe(pipefd) == -1)
 		return ;

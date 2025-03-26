@@ -6,11 +6,26 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:19:13 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/26 01:19:01 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:23:16 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+void	init_t_pipex(char **argv, int argc, t_pipex *pipex)
+{
+	pipex->cmd = NULL;
+	pipex->args = NULL;
+	pipex->full_path = NULL;
+	pipex->cmd_paths = NULL;
+	pipex->path = NULL;
+	pipex->argv = argv + 1;
+	pipex->slash = 0;
+	pipex->count = argc - 2;
+	pipex->heredoc = 0;
+	pipex->infile = argv[0];
+	pipex->outfile = argv[(argc - 1)];
+}
 
 void	run_pipex(t_pipex *pipex, char *envp[])
 {
@@ -67,15 +82,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 	init_t_pipex(argv + 1, argc - 1, &pipex);
 	if (argc == 6 && ft_strcmp(argv[1], "here_doc") == 0)
-	{
-		pipex.heredoc = 1;
-		pipex.count = 2;
 		run_here_doc(argv[2], argv[5], &pipex);
-	}
 	else if (argc < 5)
 		return (EXIT_FAILURE);
-	if (!pipex.heredoc && check_file_permission(&pipex, argv[1], argv[(argc - 1)]) < 0)
-		return (EXIT_FAILURE);
+	check_infile_permission(&pipex);
 	get_cmd_paths(envp, &pipex);
 	run_pipex(&pipex, envp);
 	safe_exit(&pipex, 0);

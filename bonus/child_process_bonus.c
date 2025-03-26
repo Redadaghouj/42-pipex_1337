@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/26 01:03:00 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 03:13:37 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 {
 	if (i == 0)
 	{
+		if (pipex->infile_fd == -1)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+			safe_exit(pipex, 2);
+		}
 		dup3(pipex->infile_fd, STDIN_FILENO);
 		dup3(pipefd[1], STDOUT_FILENO);
 	}
@@ -28,6 +34,7 @@ void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 	{
 		close(pipefd[1]);
 		dup3(prev_fd, STDIN_FILENO);
+		check_outfile_permission(pipex, pipefd);
 		dup3(pipex->outfile_fd, STDOUT_FILENO);
 	}
 	close(pipefd[0]);
@@ -41,7 +48,8 @@ void	execute_child(t_pipex *pipex, char *envp[])
 	i = 0;
 	if (pipex->slash || *envp == NULL)
 	{
-		execve(pipex->full_path[0], pipex->args, envp);
+		if (access(pipex->full_path[0], X_OK) == 0)
+			execve(pipex->full_path[0], pipex->args, envp);
 		safe_exit(pipex, 1);
 	}
 	else
@@ -50,11 +58,12 @@ void	execute_child(t_pipex *pipex, char *envp[])
 		{
 			x = ft_split(pipex->cmd, ' ');
 			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
-			execve(pipex->path, pipex->args, envp);
+			if (access(pipex->path, R_OK) == 0)
+				execve(pipex->path, pipex->args, envp);
 			free(pipex->path);
 			free_buffer(x);
 			i++;
 		}
 	}
-	safe_exit(pipex, 1);
+	fail_cmd_error(pipex, pipex->cmd);
 }

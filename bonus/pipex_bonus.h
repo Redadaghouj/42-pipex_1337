@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/26 00:36:56 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 02:27:22 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,24 @@ typedef struct s_pipex
 	int		slash;
 	int		count;
 	int		heredoc;
+	char	*infile;
+	char	*outfile;
 }			t_pipex;
 
 void	get_args(t_pipex *pipex, int i);
 
 /* PIPEX_UTILS */
 void	init_t_pipex(char **argv, int argc, t_pipex *pipex);
-int		check_file_permission(t_pipex *pipex, char *infile, char *outfile);
+void	check_infile_permission(t_pipex *pipex);
+void	check_outfile_permission(t_pipex *pipex, int pipefd[]);
 int		dup3(int old_fd, int new_fd);
 int		ft_fork(t_pipex *pipex);
 void	*free_buffer(char **buffer);
 void	parent_cleanup(int *prev_fd, int count, int pipefd[], int i);
 
 /* ERROR_HANDLERS */
-void	print_error(char *msg, char *file);
 void	safe_exit(t_pipex *pipex, int err);
+void	fail_cmd_error(t_pipex *pipex, char *cmd);
 
 /* CHILD PROCESS */
 void	execute_child(t_pipex *pipex, char *envp[]);
