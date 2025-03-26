@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:30:30 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 07:42:19 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:03:00 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 {
 	if (i == 0)
 	{
-		dup3(pipefd[1], STDOUT_FILENO);
 		dup3(pipex->infile_fd, STDIN_FILENO);
+		dup3(pipefd[1], STDOUT_FILENO);
 	}
 	else if (i < pipex->count - 1)
 	{

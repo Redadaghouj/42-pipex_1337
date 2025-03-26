@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:17:52 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 07:53:51 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:36:56 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 
 typedef struct s_pipex
 {
-	char	*infile;
 	char	*cmd;
-	char	*outfile;
 	int		infile_fd;
 	int		outfile_fd;
 	char	**cmd_paths;
@@ -37,13 +35,14 @@ typedef struct s_pipex
 	char	**argv;
 	int		slash;
 	int		count;
+	int		heredoc;
 }			t_pipex;
 
 void	get_args(t_pipex *pipex, int i);
 
 /* PIPEX_UTILS */
 void	init_t_pipex(char **argv, int argc, t_pipex *pipex);
-int		check_file_permission(t_pipex *pipex);
+int		check_file_permission(t_pipex *pipex, char *infile, char *outfile);
 int		dup3(int old_fd, int new_fd);
 int		ft_fork(t_pipex *pipex);
 void	*free_buffer(char **buffer);
@@ -66,6 +65,6 @@ char	*ft_strrchr(const char *s, int c, int *slash);
 int		ft_strcmp(char *s1, char *s2);
 
 /* HERE_DOC */
-void	run_here_doc(char *limiter);
+void	run_here_doc(char *limiter, char *file, t_pipex *pipex);
 
 #endif

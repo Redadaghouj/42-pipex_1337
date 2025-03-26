@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 22:40:27 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 04:45:08 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:12:36 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	init_t_pipex(char **argv, int argc, t_pipex *pipex)
 {
-	pipex->infile = argv[0];
 	pipex->cmd = NULL;
-	pipex->outfile = argv[(argc - 1)];
 	pipex->args = NULL;
+	pipex->full_path = NULL;
 	pipex->cmd_paths = NULL;
 	pipex->path = NULL;
 	pipex->argv = argv + 1;
 	pipex->slash = 0;
 	pipex->count = argc - 2;
+	pipex->heredoc = -1;
 }
 
-int	check_file_permission(t_pipex *pipex)
+int	check_file_permission(t_pipex *pipex, char *infile, char *outfile)
 {
 	int	flag;
 
 	flag = 0;
-	pipex->infile_fd = open(pipex->infile, O_RDONLY);
-	pipex->outfile_fd = open(pipex->outfile, O_WRONLY | O_CREAT
-			| O_TRUNC, 0777);
+	pipex->infile_fd = open(infile, O_RDONLY);
+	pipex->outfile_fd = open(outfile, O_WRONLY | O_CREAT
+			| O_TRUNC, 0666);
 	if (pipex->infile_fd < 0)
 	{
 		flag = -1;

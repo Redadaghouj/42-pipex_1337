@@ -6,7 +6,7 @@
 /*   By: mdaghouj <mdaghouj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 21:58:45 by mdaghouj          #+#    #+#             */
-/*   Updated: 2025/03/25 03:41:48 by mdaghouj         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:09:31 by mdaghouj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*free_buffer(char **buffer)
 {
 	int	i;
 
-	if (buffer == NULL)
+	if (!buffer)
 		return (NULL);
 	i = 0;
 	while (buffer[i] != NULL)
