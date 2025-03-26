@@ -1,5 +1,3 @@
-Here's the updated README.md for your pipex project based on the new file structure:
-
 # pipex - 1337 Project  
 
 [![1337 Badge](https://img.shields.io/badge/1337-Project-blue)](https://www.42network.org/)  
