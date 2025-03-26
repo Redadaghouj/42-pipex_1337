@@ -78,7 +78,7 @@ Produces `pipex` executable
 ```bash
 make bonus
 ```
-Produces `pipex_bonus` executable  
+Produces `pipex` executable  
 
 ### Cleanup  
 ```bash
@@ -102,12 +102,12 @@ Equivalent to:
 
 ### Multiple Pipes (Bonus)  
 ```bash
-./pipex_bonus infile "grep foo" "sort" "uniq" outfile
+./pipex infile "grep foo" "sort" "uniq" outfile
 ```
 
 ### here_doc (Bonus)  
 ```bash
-./pipex_bonus here_doc EOF "cat" "wc -w" outfile
+./pipex here_doc EOF "cat" "wc -w" outfile
 ```
 Then type input ending with EOF
 
