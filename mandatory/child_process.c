@@ -43,12 +43,12 @@ void	setup_child_process(t_pipex *pipex, int i, int pipefd[], int prev_fd)
 void	execute_child(t_pipex *pipex, char *envp[])
 {
 	int		i;
-	char	**x;
+	char	**cmd;
 
 	i = 0;
 	if (pipex->slash || *envp == NULL)
 	{
-		if (access(pipex->full_path[0], X_OK) == 0)
+		if (access(pipex->full_path[0], R_OK) == 0)
 			execve(pipex->full_path[0], pipex->args, envp);
 		safe_exit(pipex, 1);
 	}
@@ -56,12 +56,12 @@ void	execute_child(t_pipex *pipex, char *envp[])
 	{
 		while (pipex->cmd_paths[i] != NULL)
 		{
-			x = ft_split(pipex->cmd, ' ');
-			pipex->path = ft_strjoin(pipex->cmd_paths[i], x[0]);
+			cmd = ft_split(pipex->cmd, ' ');
+			pipex->path = ft_strjoin(pipex->cmd_paths[i], cmd[0]);
 			if (access(pipex->path, R_OK) == 0)
 				execve(pipex->path, pipex->args, envp);
 			free(pipex->path);
-			free_buffer(x);
+			free_buffer(cmd);
 			i++;
 		}
 	}
