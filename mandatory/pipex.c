@@ -87,8 +87,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	init_t_pipex(argv + 1, argc - 1, &pipex);
-	if (argc < 5)
-		return (EXIT_FAILURE);
 	check_infile_permission(&pipex);
 	get_cmd_paths(envp, &pipex);
 	run_pipex(&pipex, envp);
